@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # apps
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,7 @@ WSGI_APPLICATION = 'configs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'my_name_db',
+        'NAME': 'my_demo_base',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
