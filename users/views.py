@@ -24,7 +24,7 @@ class UserLiltCreateView(APIView):
             users = read_file()
             return Response(users)
         except Exception as err:
-            Response({'error': err})
+            Response({'error': str(err)})
 
     def post(self, *args, **kwargs):
         try:
@@ -36,7 +36,7 @@ class UserLiltCreateView(APIView):
             write_to_file(users)
             return Response(data)
         except Exception as err:
-            Response({'error': err})
+            Response({'error': str(err)})
 
 
 class UserRetrieveUpdateDestroyView(APIView):
@@ -51,7 +51,7 @@ class UserRetrieveUpdateDestroyView(APIView):
             return Response(user)
 
         except Exception as err:
-            Response({'error': err})
+            Response({'error': str(err)})
 
     def put(self, *args, **kwargs):
         try:
@@ -65,7 +65,7 @@ class UserRetrieveUpdateDestroyView(APIView):
             write_to_file(users)
             return Response({'id': user_id, **data})
         except Exception as err:
-            Response({'error': err})
+            Response({'error': str(err)})
 
     def patch(self, *args, **kwargs):
         try:
@@ -84,7 +84,7 @@ class UserRetrieveUpdateDestroyView(APIView):
             write_to_file(users)
             return Response(user)
         except Exception as err:
-            Response({'error': err})
+            Response({'error': str(err)})
 
     def delete(self, *args, **kwargs):
         try:
@@ -97,4 +97,4 @@ class UserRetrieveUpdateDestroyView(APIView):
             write_to_file(users)
             return Response('deleted')
         except Exception as err:
-            Response({'error': err})
+            Response({'error': str(err)})
