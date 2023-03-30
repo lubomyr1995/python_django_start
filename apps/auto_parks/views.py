@@ -1,11 +1,11 @@
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
+from ..cars.serializers import CarSerializerForAutoPark
 from .models import AutoParkModel
 from .serializers import AutoParkSerializer
-from ..cars.serializers import CarSerializerForAutoPark
 
 
 class AutoParkListCreateView(ListCreateAPIView):
@@ -20,7 +20,6 @@ class AutoParkListCreateView(ListCreateAPIView):
 class AutoParkCarListCreateView(ListCreateAPIView):
     queryset = AutoParkModel.objects.all()
     serializer_class = CarSerializerForAutoPark
-    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         auto_park = self.get_object()
@@ -52,4 +51,3 @@ class AutoParkCarListCreateView(ListCreateAPIView):
 class AutoParkRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = AutoParkModel.objects.all()
     serializer_class = AutoParkSerializer
-    permission_classes = (IsAuthenticated,)

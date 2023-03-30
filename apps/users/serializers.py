@@ -1,8 +1,10 @@
-from rest_framework.serializers import ModelSerializer
+from django.contrib.auth import get_user_model
 from django.db import transaction
 
-from django.contrib.auth import get_user_model
-from apps.users.models import UserModel as User, ProfileModel
+from rest_framework.serializers import ModelSerializer
+
+from apps.users.models import ProfileModel
+from apps.users.models import UserModel as User
 
 UserModel: User = get_user_model()
 
