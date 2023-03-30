@@ -9,10 +9,16 @@ from apps.users.models import UserModel as User
 UserModel: User = get_user_model()
 
 
+class AddAvatarSerializer(ModelSerializer):
+    class Meta:
+        model = ProfileModel
+        fields = ('avatar',)
+
+
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = ProfileModel
-        fields = ('name', 'surname', 'age', 'phone')
+        fields = ('name', 'surname', 'age', 'phone', 'avatar')
 
 
 class UserSerializer(ModelSerializer):

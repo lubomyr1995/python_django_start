@@ -3,6 +3,7 @@ from django.core import validators as V
 from django.db import models
 
 from core.enums.regex_enum import RegEx
+from core.services.upload_photo_user import upload_user_photo
 
 from .menagers import UserManager
 
@@ -32,4 +33,5 @@ class ProfileModel(models.Model):
     surname = models.CharField(max_length=50, validators=[V.RegexValidator(RegEx.NAME.pattern, RegEx.NAME.message)])
     age = models.IntegerField(validators=[V.MinValueValidator(18), V.MaxValueValidator(150)])
     phone = models.CharField(max_length=10, validators=[V.RegexValidator(RegEx.PHONE.pattern, RegEx.PHONE.message)])
+    avatar = models.ImageField(upload_to=upload_user_photo, blank=True)
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='profile')
