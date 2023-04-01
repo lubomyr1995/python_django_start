@@ -3,6 +3,7 @@ from django.core import validators as V
 from django.db import models
 
 from core.enums.regex_enum import RegEx
+from core.services.upload_image_for_autopark import upload_to
 
 from apps.users.models import UserModel as User
 
@@ -14,6 +15,7 @@ class AutoParkModel(models.Model):
         db_table = 'auto_parks'
 
     name = models.CharField(max_length=50, validators=[V.RegexValidator(RegEx.NAME.pattern, RegEx.NAME.message)])
+    image = models.ImageField(upload_to=upload_to, blank=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='auto_parks')
 
     def __str__(self):

@@ -9,5 +9,5 @@ class AutoParkSerializer(ModelSerializer):
 
     class Meta:
         model = AutoParkModel
-        fields = ('id', 'name', 'cars', 'user')
+        fields = ('id', 'name', 'image', 'cars', 'user')
         read_only_fields = ('user',)
