@@ -43,9 +43,6 @@ class CarAddImagesView(GenericAPIView):
 class CarDeleteImageView(DestroyAPIView):
     queryset = CarImageModel.objects.all()
 
-    # def perform_destroy(self, instance):
-    #     super().perform_destroy(instance)
-
     def perform_destroy(self, instance):
         instance.image.delete()
         instance.delete()
