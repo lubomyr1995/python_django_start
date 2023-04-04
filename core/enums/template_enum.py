@@ -3,6 +3,7 @@ from enum import Enum
 
 class TemplateEnum(Enum):
     REGISTER = ('Register', 'register.html')
+    RECOVERY = ('Recovery password', 'recovery_password.html')
 
     def __init__(self, name_subject, template_name):
         self.name_subject = name_subject
