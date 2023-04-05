@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.transaction import atomic
 
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView, get_object_or_404
@@ -8,7 +9,7 @@ from rest_framework.response import Response
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
-from apps.auth.serializers import EmailSerializer, PasswordSerializer
+from apps.auth.serializers import EmailSerializer
 from apps.users.models import UserModel as User
 from apps.users.serializers import UserSerializer
 
@@ -57,12 +58,13 @@ class RecoveryPasswordRequestView(GenericAPIView):
 class ChangePasswordView(GenericAPIView):
     permission_classes = (AllowAny,)
 
+    @atomic
     def post(self, *args, **kwargs):
         token = kwargs.get('token')
         new_password = self.request.data
-        user = JWTService.validate_token(token, RecoveryToken)
-        serializer = PasswordSerializer(data=new_password)
+        user: User = JWTService.validate_token(token, RecoveryToken)
+        serializer = UserSerializer(data=new_password, partial=True)
         serializer.is_valid(raise_exception=True)
-        user.set_password(serializer.data.get('password'))
+        user.set_password(new_password['password'])
         user.save()
         return Response({'details': 'Your password changed'}, status.HTTP_200_OK)
