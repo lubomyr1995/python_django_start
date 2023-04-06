@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.response import Response
 
+from core.permissions.block_unblock import BlockUnblockUserPermission
 from core.permissions.is_superuser import IsSuperuser
 
 from apps.users.models import ProfileModel
@@ -74,17 +75,16 @@ class AdminToUserView(GenericAPIView):
 
 
 class UserBlockView(GenericAPIView):
+    permission_classes = (BlockUnblockUserPermission,)
+
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
 
-        if not self.request.user.is_staff or (user.is_staff and not self.request.user.is_superuser):
-            return Response('permission denied', status.HTTP_403_FORBIDDEN)
-
         if not user.is_active:
-            return Response(status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         user.is_active = False
         user.save()
@@ -93,17 +93,16 @@ class UserBlockView(GenericAPIView):
 
 
 class UserActiveView(GenericAPIView):
+    permission_classes = (BlockUnblockUserPermission,)
+
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
 
-        if not self.request.user.is_staff or (user.is_staff and not self.request.user.is_superuser):
-            return Response('permission denied', status.HTTP_403_FORBIDDEN)
-
         if user.is_active:
-            return Response(status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         user.is_active = True
         user.save()

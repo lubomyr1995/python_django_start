@@ -11,6 +11,7 @@ from .menagers import UserManager
 class UserModel(AbstractBaseUser, PermissionsMixin):
     class Meta:
         db_table = 'auth_user'
+        ordering = ['id']
 
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128,
@@ -28,6 +29,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
 class ProfileModel(models.Model):
     class Meta:
         db_table = 'profile'
+        ordering = ['id']
 
     name = models.CharField(max_length=50, validators=[V.RegexValidator(RegEx.NAME.pattern, RegEx.NAME.message)])
     surname = models.CharField(max_length=50, validators=[V.RegexValidator(RegEx.NAME.pattern, RegEx.NAME.message)])

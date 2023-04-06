@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from core.services.email_service import EmailService
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
 
-from apps.auth.serializers import EmailSerializer
+from apps.auth.serializers import EmailSerializer, PasswordSerializer
 from apps.users.models import UserModel as User
 from apps.users.serializers import UserSerializer
 
@@ -63,8 +63,9 @@ class ChangePasswordView(GenericAPIView):
         token = kwargs.get('token')
         new_password = self.request.data
         user: User = JWTService.validate_token(token, RecoveryToken)
-        serializer = UserSerializer(data=new_password, partial=True)
+        serializer = PasswordSerializer(data=new_password)
         serializer.is_valid(raise_exception=True)
+        # user.set_password(serializer.data.get('password'))
         user.set_password(new_password['password'])
         user.save()
         return Response({'details': 'Your password changed'}, status.HTTP_200_OK)

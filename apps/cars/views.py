@@ -3,22 +3,18 @@ from rest_framework.generics import DestroyAPIView, GenericAPIView, ListAPIView,
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from .filters import CarFilter
 from .models import CarImageModel, CarModel
 from .serializers import CarImageSerializer, CarSerializer
 
 
 class CarListView(ListAPIView):
+    queryset = CarModel.objects.all()
+    # queryset = CarModel.objects.cars_by_auto_park_id(2)
     serializer_class = CarSerializer
     permission_classes = (AllowAny,)
-
-    def get_queryset(self):
-        qs = CarModel.objects.all()
-        params_dict = self.request.query_params.dict()
-
-        if 'year' in params_dict:
-            qs = qs.filter(year__gte=params_dict['year'])
-
-        return qs
+    filterset_class = CarFilter
+    # filterset_fields = ('brand',)
 
 
 class CarUpdateView(UpdateAPIView):

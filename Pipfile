@@ -9,6 +9,8 @@ mysqlclient = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
 django-dotenv = "*"
+django-filter = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 isort = "*"

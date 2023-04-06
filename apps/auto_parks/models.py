@@ -13,6 +13,7 @@ UserModel: User = get_user_model()
 class AutoParkModel(models.Model):
     class Meta:
         db_table = 'auto_parks'
+        ordering = ['id']
 
     name = models.CharField(max_length=50, validators=[V.RegexValidator(RegEx.NAME.pattern, RegEx.NAME.message)])
     image = models.ImageField(upload_to=upload_to, blank=True)
