@@ -2,3 +2,4 @@
 .idea
 storage
 .env
+Pipfile.lock

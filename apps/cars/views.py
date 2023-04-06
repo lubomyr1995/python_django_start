@@ -1,7 +1,10 @@
 from rest_framework import status
 from rest_framework.generics import DestroyAPIView, GenericAPIView, ListAPIView, UpdateAPIView
+from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+
+from core.pagination.page_pagination import PagePagination
 
 from .filters import CarFilter
 from .models import CarImageModel, CarModel
@@ -14,7 +17,21 @@ class CarListView(ListAPIView):
     serializer_class = CarSerializer
     permission_classes = (AllowAny,)
     filterset_class = CarFilter
-    # filterset_fields = ('brand',)
+    filterset_fields = ('brand',)
+# class CarListView(GenericAPIView):
+#     permission_classes = (AllowAny,)
+#     pagination_class = PagePagination
+#     serializer_class = CarSerializer
+#
+#     def get(self, *args, **kwargs):
+#         queryset = CarModel.objects.all()
+#         page = self.paginate_queryset(queryset)
+#         if page is not None:
+#             serializer = self.get_serializer(page, many=True)
+#             return self.get_paginated_response(serializer.data)
+#
+#         serializer = self.get_serializer(queryset, many=True)
+#         return Response(serializer.data)
 
 
 class CarUpdateView(UpdateAPIView):
