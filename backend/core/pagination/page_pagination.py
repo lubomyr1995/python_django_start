@@ -1,6 +1,6 @@
 import math
 
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import BasePagination, PageNumberPagination
 from rest_framework.response import Response
 
 
@@ -22,3 +22,30 @@ class PagePagination(PageNumberPagination):
             'page': self.page.number,
             'data': data
         })
+
+    # def get_paginated_response_schema(self, schema):
+    #     return {
+    #         'type': 'object',
+    #         'properties': {
+    #             'total_items': {
+    #                 'type': 'integer'
+    #             },
+    #             'total_pages': {
+    #                 'type': 'integer'
+    #             },
+    #             'prev': {
+    #                 'type': 'string',
+    #                 'nullable': True,
+    #                 'format': 'uri',
+    #             },
+    #             'next': {
+    #                 'type': 'string',
+    #                 'nullable': True,
+    #                 'format': 'uri',
+    #             },
+    #             'page': {
+    #                 'type': 'integer'
+    #             },
+    #             'data': schema,
+    #         },
+    #     }

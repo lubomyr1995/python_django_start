@@ -2,14 +2,22 @@ from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
+from apps.auto_parks.swagger import decorators
+
 from ..cars.serializers import CarSerializerForAutoPark
 from .filters import AutoParkFilter
 from .models import AutoParkModel
 from .serializers import AutoParkSerializer
 
 
+@decorators.auto_park_list_swagger()
 class AutoParkListCreateView(ListCreateAPIView):
-
+    """
+    get:
+        List of auto_parks
+    post:
+        Create auto_park
+    """
     serializer_class = AutoParkSerializer
     filterset_class = AutoParkFilter
 
@@ -20,7 +28,14 @@ class AutoParkListCreateView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
+@decorators.auto_park_car_list_swagger()
 class AutoParkCarListCreateView(ListCreateAPIView):
+    """
+    get:
+        all cars by auto_park id
+    post:
+        create car by auto_park id
+    """
     queryset = AutoParkModel.objects.all()
     serializer_class = CarSerializerForAutoPark
 
@@ -35,6 +50,16 @@ class AutoParkCarListCreateView(ListCreateAPIView):
 
 
 class AutoParkRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    """
+    get:
+        return auto_park by id
+    put:
+        full update auto_park by id
+    patch:
+        partial update auto_park by id
+    delete:
+        delete auto_park by id
+    """
     serializer_class = AutoParkSerializer
 
     def get_queryset(self):

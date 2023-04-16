@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveDestroyAPIView, UpdateAPIView
 from rest_framework.response import Response
 
 from core.permissions.block_unblock import BlockUnblockUserPermission
@@ -9,13 +9,18 @@ from core.permissions.is_superuser import IsSuperuser
 
 from apps.users.models import ProfileModel
 from apps.users.models import UserModel as User
+from apps.users.swagger import decorators
 
 from .serializers import ProfileSerializer, UserSerializer
 
 UserModel: User = get_user_model()
 
 
+@decorators.user_list_swagger()
 class UserListView(ListAPIView):
+    """
+    user list without authorization user
+    """
     serializer_class = UserSerializer
     permission_classes = (IsSuperuser,)
 
@@ -23,7 +28,14 @@ class UserListView(ListAPIView):
         return UserModel.objects.exclude(pk=self.request.user.pk)
 
 
-class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+@decorators.user_retrieve()
+class UserRetrieveDestroyView(RetrieveDestroyAPIView):
+    """
+    get:
+        return user by id
+    delete:
+        delete user by id
+    """
     permission_classes = (IsSuperuser,)
     serializer_class = UserSerializer
 
@@ -32,16 +44,30 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
 
 class UserProfileUpdateView(UpdateAPIView):
-    http_method_names = 'patch'
+    """
+    post:
+        user profile update
+    patch:
+        add avatar for user or anything else
+    """
     queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
+
+    # http_method_names = 'patch'
 
     def get_object(self):
         return self.request.user.profile
 
 
+@decorators.user_to_admin()
 class UserToAdminView(GenericAPIView):
+    """
+    changed user to admin by user id
+    """
     permission_classes = (IsSuperuser,)
+
+    def get_serializer(self, *args, **kwargs):
+        pass
 
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
@@ -57,9 +83,15 @@ class UserToAdminView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+@decorators.user_to_admin()
 class AdminToUserView(GenericAPIView):
-    serializer_class = UserSerializer
+    """
+    changed admin to user by user id
+    """
     permission_classes = (IsSuperuser,)
+
+    def get_serializer(self, *args, **kwargs):
+        pass
 
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
@@ -74,8 +106,15 @@ class AdminToUserView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+@decorators.user_to_admin()
 class UserBlockView(GenericAPIView):
+    """
+    block user by user id
+    """
     permission_classes = (BlockUnblockUserPermission,)
+
+    def get_serializer(self, *args, **kwargs):
+        pass
 
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
@@ -92,8 +131,15 @@ class UserBlockView(GenericAPIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
+@decorators.user_to_admin()
 class UserActiveView(GenericAPIView):
+    """
+    active user by user id
+    """
     permission_classes = (BlockUnblockUserPermission,)
+
+    def get_serializer(self, *args, **kwargs):
+        pass
 
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)

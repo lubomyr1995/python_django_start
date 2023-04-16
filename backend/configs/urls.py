@@ -3,10 +3,7 @@ from django.conf.urls.static import static
 from django.urls import include, path
 
 urlpatterns = [
-    path('auth', include('apps.auth.urls')),
-    path('users', include('apps.users.urls')),
-    path('auto_parks', include('apps.auto_parks.urls')),
-    path('cars', include('apps.cars.urls'))
+    path('api', include('api.api_v1', namespace='v1'))
 ]
 
 handler400 = 'rest_framework.exceptions.bad_request'

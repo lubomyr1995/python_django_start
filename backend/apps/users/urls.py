@@ -6,14 +6,14 @@ from .views import (
     UserBlockView,
     UserListView,
     UserProfileUpdateView,
-    UserRetrieveUpdateDestroyView,
+    UserRetrieveDestroyView,
     UserToAdminView,
 )
 
 urlpatterns = [
     path('', UserListView.as_view(), name='user_list'),
-    path('/<int:pk>', UserRetrieveUpdateDestroyView.as_view(), name='user_retrieve_update_destroy'),
     path('/profile', UserProfileUpdateView.as_view(), name='user_profile_update'),
+    path('/<int:pk>', UserRetrieveDestroyView.as_view(), name='user_retrieve_destroy'),
     path('/<int:pk>/to_admin', UserToAdminView.as_view(), name='user_to_admin'),
     path('/<int:pk>/to_user', AdminToUserView.as_view(), name='admin_to_user'),
     path('/<int:pk>/to_block', UserBlockView.as_view(), name='user_un_active'),
