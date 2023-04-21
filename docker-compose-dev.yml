@@ -51,14 +51,14 @@ services:
       - ./backend:/app
     restart: on-failure
     command: >
-      sh -c "celery -A configs worker -l info -B"
-  #      sh -c "celery -A configs worker -l info"
+      sh -c "celery -A configs worker -l info"
+  #      sh -c "celery -A configs worker -l info -B"
 
-#  flower:
-#    image: mher/flower:0.9.7
-#    depends_on:
-#      - redis
-#    ports:
-#      - "5555:5555"
-#    restart: on-failure
-#    command: [ 'flower', '--broker=redis://redis:6379', '--port=5555' ]
+  flower:
+    image: mher/flower:0.9.7
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"
+    restart: on-failure
+    command: [ 'flower', '--broker=redis://redis:6379', '--port=5555' ]
