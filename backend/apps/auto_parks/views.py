@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from apps.auto_parks.swagger import decorators
@@ -20,6 +21,8 @@ class AutoParkListCreateView(ListCreateAPIView):
     """
     serializer_class = AutoParkSerializer
     filterset_class = AutoParkFilter
+    permission_classes = (AllowAny,)
+    pagination_class = None
 
     def get_queryset(self):
         return AutoParkModel.objects.auto_parks_auth(self.request.user.pk)

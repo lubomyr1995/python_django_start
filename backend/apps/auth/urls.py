@@ -8,6 +8,7 @@ from .views import (
     AuthUserInfoView,
     ChangePasswordView,
     RecoveryPasswordRequestView,
+    SocketTokenView,
     TokenObtainPairAndUserView,
 )
 
@@ -19,4 +20,5 @@ urlpatterns = [
     path('/activate/<str:token>', ActivateUserView.as_view(), name='activate_user'),
     path('/recovery_password', RecoveryPasswordRequestView.as_view(), name='recovery_password'),
     path('/recovery_password/<str:token>', ChangePasswordView.as_view(), name='change_password'),
+    path('/socket', SocketTokenView.as_view(), name='auth_get_socket_token')
 ]

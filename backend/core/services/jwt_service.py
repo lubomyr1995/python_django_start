@@ -42,3 +42,8 @@ class JWTService:
         user_id = activate_token.payload.get('user_id')
         return get_object_or_404(UserModel, pk=user_id)
         # get_object_or_404 -- повертає юзера якщо все добре
+
+
+class SocketToken(BlacklistMixin, Token):
+    lifetime = ActionEnum.SOCKET.lifetime
+    token_type = ActionEnum.SOCKET.token_type

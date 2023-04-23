@@ -1,7 +1,8 @@
 .venv
 .idea
-.env
 Pipfile.lock
 mysql
 storage
 
+/.env
+/client/
