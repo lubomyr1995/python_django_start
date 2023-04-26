@@ -16,7 +16,7 @@ from .serializers import ProfileSerializer, UserSerializer
 UserModel: User = get_user_model()
 
 
-@decorators.user_list_swagger()
+# @decorators.user_list_swagger()
 class UserListView(ListAPIView):
     """
     user list without authorization user

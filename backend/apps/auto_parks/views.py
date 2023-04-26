@@ -20,12 +20,13 @@ class AutoParkListCreateView(ListCreateAPIView):
         Create auto_park
     """
     serializer_class = AutoParkSerializer
+    queryset = AutoParkModel.objects.all()
     filterset_class = AutoParkFilter
     permission_classes = (AllowAny,)
     pagination_class = None
 
-    def get_queryset(self):
-        return AutoParkModel.objects.auto_parks_auth(self.request.user.pk)
+    # def get_queryset(self):
+    #     return AutoParkModel.objects.auto_parks_auth(self.request.user.pk)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

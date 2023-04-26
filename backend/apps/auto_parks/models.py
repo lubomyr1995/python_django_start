@@ -24,3 +24,12 @@ class AutoParkModel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ChatModel(models.Model):
+    class Meta:
+        db_table = 'chat'
+        ordering = ['id']
+
+    message = models.CharField(max_length=255)
+    owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)

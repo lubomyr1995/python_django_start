@@ -106,6 +106,10 @@ class ChangePasswordView(GenericAPIView):
 
 
 class SocketTokenView(GenericAPIView):
+
+    def get_serializer_class(self):
+        pass
+
     def get(self, *args, **kwargs):
         user = self.request.user
         token = JWTService.create_token(user, SocketToken)
