@@ -22,7 +22,7 @@ class AutoParkListCreateView(ListCreateAPIView):
     serializer_class = AutoParkSerializer
     queryset = AutoParkModel.objects.all()
     filterset_class = AutoParkFilter
-    permission_classes = (AllowAny,)
+    # permission_classes = (AllowAny,)
     pagination_class = None
 
     # def get_queryset(self):
